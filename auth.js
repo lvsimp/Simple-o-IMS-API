@@ -30,7 +30,7 @@ module.exports.verify = (req, res, next) =>{
 //verify admin or owner
 module.exports.verifyAdmin = (req, res, next) => {
     
-    if(req.user.role === 'owner'){
+    if(req.user.role === 'Admin'){
         next();
     }else{
         return res.status(400).send({auth: "Failed", message: "Action Forbidden"})
