@@ -1,6 +1,6 @@
 //imports 
 const knex = require('knex')(require('../knexfile'));
-const {v4 : uuid} = require('uuuid');
+const {v4 : uuid} = require('uuid');
 
 //get all supplier
 module.exports.getAllSupplier = (req, res) =>{
@@ -14,8 +14,9 @@ module.exports.getAllSupplier = (req, res) =>{
 //get single supplier
 module.exports.getSingleSupplier = (req, res) => {
     knex('suppliers')
+        .where({id : req.params.supplier_id})
         .then(data => {
-            res.status(200).send(data)''
+            res.status(200).send(data);
         })
         .catch(err => res.status(400).send(`Can't retrieve data ${err}`));
 }

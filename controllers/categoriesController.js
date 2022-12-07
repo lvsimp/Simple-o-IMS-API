@@ -1,6 +1,6 @@
 //imports 
 const knex = require('knex')(require('../knexfile'));
-const {v4 : uuid} = require('uuuid');
+const {v4 : uuid} = require('uuid');
 
 //get all category
 module.exports.getAllCategory = (req, res) =>{
