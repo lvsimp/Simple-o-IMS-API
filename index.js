@@ -6,10 +6,14 @@ const port = PORT || 8080;
 const app = express();
 
 const userRoutes = require('./router/usersRoute');
+const categoryRoutes = require('./router/categoryRoute');
+const supplierRoutes = require('./router/supplierRoute');
 
 app.use(cors());
 app.use(express.json());
 
 app.use('/users', userRoutes);
+app.use('/category' , categoryRoutes );
+app.use('/supplier', supplierRoutes);
 
 app.listen(port, ()=>console.log(`🚀Server running at http://localhost:${port} 🚀`));
