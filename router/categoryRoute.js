@@ -1,13 +1,12 @@
 const router = require('express').Router();
-const categoryController = require('../controllers/categoriesController');
-
 const {
     getAllCategory,
     getSingleCategory, 
     addCategory,
     updateCategory,
     deleteCategory
-} = categoryController;
+} =  require('../controllers/categoriesController');
+
 
 router.route('/')
     .get(getAllCategory)

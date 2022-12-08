@@ -1,15 +1,12 @@
 const router = require('express').Router();
-const auth = require('../auth');
-const userController = require('../controllers/usersController');
-
-const {verify, verifyAdmin} = auth;
+const {verify, verifyAdmin} = require('../auth');
 const {
         getAllUsers, 
         getSingleUser,
         updateProfile, 
         addEmployee, 
         registerUser, 
-        loginUser} = userController;
+        loginUser} = require('../controllers/usersController');
         
 //for login and registration
 router.post('/register', registerUser);
