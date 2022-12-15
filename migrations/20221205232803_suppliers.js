@@ -7,7 +7,7 @@ exports.up = function(knex) {
     table.uuid('id').primary();
     table.string('name').notNullable();
     table.string('address').notNullable();
-    table.integer('phone').notNullable();
+    table.string('phone').notNullable();
     table.string('email').notNullable();
     table.string('contact_person').notNullable();
     table.uuid('created_by')

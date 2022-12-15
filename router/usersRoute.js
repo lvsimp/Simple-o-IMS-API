@@ -6,7 +6,8 @@ const {
         updateProfile, 
         addEmployee, 
         registerUser, 
-        loginUser} = require('../controllers/usersController');
+        loginUser,
+    } = require('../controllers/usersController');
         
 //for login and registration
 router.post('/register', registerUser);
@@ -14,11 +15,11 @@ router.post('/login', loginUser);
 
 
 router.route('/')
-    .get(getAllUsers);
+    .get(getAllUsers)
+    .post(addEmployee);
 
 router.route('/:user_id')
     .get(getSingleUser)
-    .put(updateProfile)
-    .post(verify, verifyAdmin, addEmployee);
+    .put(updateProfile);
 
 module.exports = router;

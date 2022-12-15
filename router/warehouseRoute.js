@@ -11,7 +11,7 @@ router.route('/')
       .get(getAllWarehouse)
       .post(addWarehouse)
 
-router.route('/:Warehouse_id')
+router.route('/:warehouse_id')
       .get(getSingleWarehouse)
       .put(updateWarehouse)
       .delete(deleteWarehouse);

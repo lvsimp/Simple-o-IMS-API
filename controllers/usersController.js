@@ -15,6 +15,13 @@ module.exports.getAllUsers = (_req, res) => {
     .catch(err => res.status(400).send(err));
 }
 
+//get user-profile
+module.exports.getUserProfile =(req, res) => {
+    if(req.user){
+        res.json({user: req.user})
+    }
+}
+
 //get single user by id
 module.exports.getSingleUser = (req, res) => {
     knex('users')
@@ -121,11 +128,10 @@ module.exports.addEmployee = (req, res) => {
 
 //updating employee profile
 module.exports.updateProfile = (req, res) => {
-    const hashedPass = bcrypt.hashSync(req.body.password, 10)
     
     knex('users')
     .where({id : req.params.user_id})
-    .update({...req.body, password: hashedPass, updated_by: req.params.user_id})
+    .update({...req.body})
     .then(() => {
         res.status(200).send(`${req.body.first_name} profile has been updated`);
     })
