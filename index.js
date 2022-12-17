@@ -9,6 +9,7 @@ const userRoutes = require('./router/usersRoute');
 const categoryRoutes = require('./router/categoryRoute');
 const supplierRoutes = require('./router/supplierRoute');
 const warehouseRoutes = require('./router/warehouseRoute');
+const inventoryRoutes = require('./router/inventoryRoute');
 
 const {loginUser, registerUser, getUserProfile} = require('./controllers/usersController')
 
@@ -19,6 +20,7 @@ app.use('/users', userRoutes);
 app.use('/category' , categoryRoutes );
 app.use('/supplier', supplierRoutes);
 app.use('/warehouse', warehouseRoutes);
+app.use('/items' , inventoryRoutes);
 
 app.post('/login' , loginUser);
 app.post('/register', registerUser);

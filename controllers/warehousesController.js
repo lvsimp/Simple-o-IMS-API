@@ -43,7 +43,7 @@ module.exports.addWarehouse = (req, res) =>{
 // update warehouse
 module.exports.updateWarehouse = (req, res) => {
     knex('warehouses')
-        .where({id : req.body.warehouse_id})
+        .where({id : req.params.warehouse_id})
         .update({...req.body})
         .then(() => {
             res.status(200).send(`Warehouse with id ${req.params.warehouse_id} Updated`);

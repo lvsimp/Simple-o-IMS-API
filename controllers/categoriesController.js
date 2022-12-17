@@ -43,7 +43,7 @@ module.exports.updateCategory = (req, res) => {
     knex('categories')
     .where({ id: req.params.category_id })
     .update({...req.body})
-    .then(data => {
+    .then(() => {
         res.status(200).send('Category Updated');
     })
     .catch(err => res.status(400).send("Can't Update Category"))

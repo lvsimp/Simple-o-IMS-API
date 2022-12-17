@@ -28,7 +28,7 @@ module.exports.getSingleInventory = (req, res) => {
 module.exports.addInventory = (req, res) => {
     if(
         !req.body.name ||
-        !req.boody.description || 
+        !req.body.description || 
         !req.body.price ||
         !req.body.quantity||
         !req.body.category_id ||

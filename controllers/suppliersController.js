@@ -46,7 +46,7 @@ module.exports.addSupplier = (req, res) =>{
 // update supplier
 module.exports.updateSupplier = (req, res) => {
     knex('suppliers')
-        .where({id : req.body.supplier_id})
+        .where({id : req.params.supplier_id})
         .update({...req.body})
         .then(() => {
             res.status(200).send(`Supplier with id ${req.params.supplier_id} Updated`);
