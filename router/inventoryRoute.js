@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const {
         getAllInventory,
+        getDeliveries,
         getSingleInventory,
         addInventory, 
         updateInventory, 
@@ -9,7 +10,9 @@ const {
 
 router.route('/')
       .get(getAllInventory)
-      .post(addInventory);
+      .post(addInventory)
+      
+router.get('/deliveries',getDeliveries)
 
 router.route('/:inventory_id')
       .get(getSingleInventory)

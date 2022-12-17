@@ -63,3 +63,18 @@ module.exports.deleteInventory = (req, res) => {
         .then(() => res.status(200).send(`Deleted Inventory`))
         .catch(err => res.status(400).send(`Can't Delete Inventory`));
 }
+
+module.exports.getDeliveries = (req, res) =>{
+
+    knex('inventories')
+        .select('inventories.updated_on as dateDelivered', 'suppliers.name as supplier', 'warehouses.name as warehouse', 'inventories.name as item' )
+        .join('suppliers', {'inventories.supplier_id' : 'suppliers.id'})
+        .join('warehouses', {'inventories.warehouse_id' : 'warehouses.id'})
+        .orderBy('dateDelivered', 'desc')
+        .limit(5)
+        .then(data =>{
+            res.status(200).send(data);
+        })
+        .catch(err => res.status(400).send(err));
+
+}
