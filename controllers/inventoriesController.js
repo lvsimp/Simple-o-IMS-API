@@ -67,7 +67,7 @@ module.exports.deleteInventory = (req, res) => {
 module.exports.getDeliveries = (req, res) =>{
 
     knex('inventories')
-        .select('inventories.updated_on as dateDelivered', 'suppliers.name as supplier', 'warehouses.name as warehouse', 'inventories.name as item' )
+        .select('inventories.id as id','inventories.updated_on as dateDelivered', 'suppliers.name as supplier', 'warehouses.name as warehouse', 'inventories.name as item' )
         .join('suppliers', {'inventories.supplier_id' : 'suppliers.id'})
         .join('warehouses', {'inventories.warehouse_id' : 'warehouses.id'})
         .orderBy('dateDelivered', 'desc')

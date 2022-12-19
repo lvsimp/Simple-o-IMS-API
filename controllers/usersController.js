@@ -136,7 +136,7 @@ module.exports.updateProfile = (req, res) => {
         res.status(200).send(`${req.body.first_name} profile has been updated`);
     })
     .catch(err => {
-        res.status(400).send(`Could not update ${req.body.first_name} proofile`);
+        res.status(400).send(`Could not update ${req.body.first_name} profile`);
     });
 }
 
