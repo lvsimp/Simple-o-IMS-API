@@ -12,7 +12,7 @@ exports.seed = async function(knex) {
       'description':'used for carpentry',
       'price':30,
       'quantity':1500,
-      'category_id':'8b0cea6d-a484-41cc-9360-e398524bf85a',
+      'category_id':'c05c78c1-38e9-40b9-8547-eac6e5ec0835',
       'supplier_id':'8ddf6cb5-e91b-4177-8ad7-351c188d43dc',
       'warehouse_id':'69f4fb51-ba71-41e7-9162-efea42ea4c59',
       'created_by': '0de9487c-54b8-463d-9585-5692e156d09e',
