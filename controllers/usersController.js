@@ -60,7 +60,7 @@ module.exports.registerUser = (req, res) => {
     knex('users')
     .insert(newUser)
     .then(data => {
-        res.status(200).send(`New User Registered`);
+        res.status(200).json({success:true});
     })
     .catch(err => {
         res.status(500).send(`Could not add new user try again later.`)
@@ -84,7 +84,7 @@ module.exports.loginUser = (req, res) =>{
                 if(isPasswordCorrect){
                     return res.status(200).send({accessToken: createAccessToken(result)});
                 }else {
-                    res.status(400).send('Password is incorrect.');
+                    res.status(400).send({message: 'Error Signing in. Invalid email/password combination.'});
                 }
             }
         })
