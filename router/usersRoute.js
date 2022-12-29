@@ -5,21 +5,17 @@ const {
         getSingleUser,
         updateProfile, 
         addEmployee, 
-        registerUser, 
-        loginUser,
     } = require('../controllers/usersController');
         
 //for login and registration
-router.post('/register', registerUser);
-router.post('/login', loginUser);
 
 
 router.route('/')
-    .get(getAllUsers)
-    .post(addEmployee);
+    .get( getAllUsers)
+    .post(verify, verifyAdmin, addEmployee);
 
 router.route('/:user_id')
-    .get(getSingleUser)
-    .put(updateProfile);
+    .get(verify, getSingleUser)
+    .put(verify, updateProfile);
 
 module.exports = router;

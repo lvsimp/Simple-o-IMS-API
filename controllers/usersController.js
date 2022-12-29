@@ -35,9 +35,6 @@ module.exports.getSingleUser = (req, res) => {
 }
 //registration of users/clients
 module.exports.registerUser = (req, res) => {
-    if(req.body.password < 12) {
-        return res.send({message: "Password is too short."})
-    }
 
     if(
         !req.body.first_name ||
@@ -69,34 +66,28 @@ module.exports.registerUser = (req, res) => {
 
 //login user 
 module.exports.loginUser = (req, res) =>{
-    knex('users')
-        .where(() =>{
-            this
-                .where({username : req.body?.username})
-                .orWhere({email : req.body?.email})
-        })
-        .then(result => {
-            if(!result){
-                return res.status(400).send({message: 'No User Found'});
-            }else{
-                const isPasswordCorrect = bcrypt.compareSync(req.body.password, result.password);
 
+    knex('users')
+        .where({email : req.body.email})
+        .then(result => {
+           if(result !== null){
+                const isPasswordCorrect = bcrypt.compareSync(req.body.password, result[0].password);
+               
                 if(isPasswordCorrect){
                     return res.status(200).send({accessToken: createAccessToken(result)});
                 }else {
                     res.status(400).send({message: 'Error Signing in. Invalid email/password combination.'});
                 }
+            }else{
+                return res.status(400).send({message: 'No User Found'});
             }
         })
-        .catch(err => res.status(400).send(err));
+        .catch(err => res.status(400).send({message: `can't login user ${err}`}));
 }
 
 // adding new employee by admin/owner
 module.exports.addEmployee = (req, res) => {
-    if(req.body.password < 12) {
-        return res.send({message: "Password is too short."})
-    }
-
+  
     if( !req.body || 
         !req.body.first_name ||
         !req.body.last_name ||

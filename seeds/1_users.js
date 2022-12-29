@@ -2,6 +2,8 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
+const bcrypt = require('bcrypt');
+
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
   await knex('users').del()
@@ -12,7 +14,7 @@ exports.seed = async function(knex) {
       "last_name": "Simpelo",
       "email": "lvs@gmail.com",
       "username": "b_heart",
-      "password": "test1234",
+      "password": bcrypt.hashSync('test1234', 10),
       "role": "Admin",
       "created_by": null,
       "created_on": new Date('2022-12-07 05:06:55'),
@@ -25,7 +27,7 @@ exports.seed = async function(knex) {
       "last_name": "simpelo",
       "email": "louiseviviensimpelo08@gmail.com",
       "username": "bheart",
-      "password": "test",
+      "password":  bcrypt.hashSync('test', 10),
       "role": "Cashier",
       "created_by": '0de9487c-54b8-463d-9585-5692e156d09e',
       "created_on": new Date('2022-12-14 22:03:50'),
