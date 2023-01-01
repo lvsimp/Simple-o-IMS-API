@@ -11,7 +11,7 @@ const {
 
 
 router.route('/')
-    .get( getAllUsers)
+    .get( verify, verifyAdmin, getAllUsers)
     .post(verify, verifyAdmin, addEmployee);
 
 router.route('/:user_id')
