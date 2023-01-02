@@ -74,7 +74,7 @@ module.exports.loginUser = (req, res) =>{
                 const isPasswordCorrect = bcrypt.compareSync(req.body.password, result[0].password);
                
                 if(isPasswordCorrect){
-                    return res.status(200).send({accessToken: createAccessToken(result)});
+                    return res.status(200).send({accessToken: createAccessToken(result[0])});
                 }else {
                     res.status(400).send({message: 'Error Signing in. Invalid email/password combination.'});
                 }

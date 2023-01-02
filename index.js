@@ -4,6 +4,7 @@ const cors =  require('cors');
 const {PORT} = process.env;
 const port = PORT || 8080;
 const app = express();
+const {verify} = require('./auth');
 
 const userRoutes = require('./router/usersRoute');
 const categoryRoutes = require('./router/categoryRoute');
@@ -24,6 +25,6 @@ app.use('/items' , inventoryRoutes);
 
 app.post('/login' , loginUser);
 app.post('/register', registerUser);
-app.get('/user-profile', getUserProfile);
+app.get('/user-profile',verify, getUserProfile);
 
 app.listen(port, ()=>console.log(`🚀Server running at http://localhost:${port} 🚀`));

@@ -7,8 +7,8 @@ const {JWT_SECRET} = process.env;
 //creating token for logged users
 module.exports.createAccessToken = user => {
     const data = {
-        id : user._id,
-        email: user.email,
+        id : user.id,
+        name: user.first_name,
         role: user.role
     }
     return jwt.sign(data, JWT_SECRET, {});
