@@ -1,6 +1,18 @@
 //imports 
 const knex = require('knex')(require('../knexfile'));
 const {v4 : uuid} = require('uuid');
+// const multer = require('multer');
+
+// const storage = multer.diskStorage({
+//         destination: function (req, file, cb){
+//             cb(null, 'public/inventories');
+//         }, 
+//         filename: function (req, file, cb){
+//             cb(null, file.originalname);
+//         }
+// });
+// const upload = multer({storage: storage});
+
 
 //get all inventory
 module.exports.getAllInventory = (req, res) =>{
@@ -26,6 +38,9 @@ module.exports.getSingleInventory = (req, res) => {
 
 //add inventory
 module.exports.addInventory = (req, res) => {
+
+    const imagePath = req.file.path;
+
     if(
         !req.body.name ||
         !req.body.description || 
@@ -37,8 +52,10 @@ module.exports.addInventory = (req, res) => {
     ){
         return res.status(400).send(`Please fill up all the fields.`);
     }
+
+
     knex('inventories')
-        .insert({id: uuid(), ...req.body})
+        .insert({id: uuid(), ...req.body, images:imagePath.replace('public', '')})
         .then(data => res.status(200).send(`Inventory has been added.`))
         .catch(err => res.status(400).send(`Can't create inventory.`));
 
@@ -46,13 +63,17 @@ module.exports.addInventory = (req, res) => {
 
 //update inventory
 module.exports.updateInventory = (req, res) => {
+
+    const imagePath = req.file.path;
+    console.log(imagePath)
+
     knex('inventories')
         .where({id : req.params.inventory_id})
-        .update({...req.body})
+        .update({...req.body, images:imagePath.replace('public', '')})
         .then(data => {
             res.status(200).send(`Inventory with id ${data.id} has been updated.`);
         })
-        .catch(err => res.status(400).send(`Can't update inventory with id ${req.params.inventory_id}`));
+        .catch(err => res.status(400).send(`Can't update inventory with id ${req.params.inventory_id} ${err}`));
 }
 
 //delete inventory
@@ -77,4 +98,28 @@ module.exports.getDeliveries = (req, res) =>{
         })
         .catch(err => res.status(400).send(err));
 
+}
+
+module.exports.getTotalQty = (req, res) => {
+    knex('inventories')
+    .sum('quantity')
+    .then(data => res.status(200).send(data))
+    .catch(err => res.status(400).send(err));
+}
+
+module.exports.getLowestQty = (req, res) =>{
+    knex('inventories')
+    .min('quantity')
+    .then(data => res.status(200).send(data))
+    .catch(err => res.status(400).send(err));
+
+
+}
+
+module.exports.getOutOfStock = (req, res) => {
+    knex('inventories')
+    .where('quantity', '=', 0)
+    .count('quantity')
+    .then(data => res.status(200).send(data))
+    .catch(err => res.status(400).send(err));
 }

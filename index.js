@@ -5,6 +5,7 @@ const {PORT} = process.env;
 const port = PORT || 8080;
 const app = express();
 const {verify} = require('./auth');
+const bodyParser = require('body-parser');
 
 const userRoutes = require('./router/usersRoute');
 const categoryRoutes = require('./router/categoryRoute');
@@ -14,14 +15,18 @@ const inventoryRoutes = require('./router/inventoryRoute');
 
 const {loginUser, registerUser, getUserProfile} = require('./controllers/usersController')
 
-app.use(cors());
+app.use(express.static('public'));
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(cors());
 
+//routes
 app.use('/users', userRoutes);
 app.use('/category' , categoryRoutes );
 app.use('/supplier', supplierRoutes);
 app.use('/warehouse', warehouseRoutes);
-app.use('/items' , inventoryRoutes);
+app.use('/items' ,inventoryRoutes);
 
 app.post('/login' , loginUser);
 app.post('/register', registerUser);

@@ -9,7 +9,8 @@ module.exports.createAccessToken = user => {
     const data = {
         id : user.id,
         name: user.first_name,
-        role: user.role
+        role: user.role,
+        avatar : user.image
     }
     return jwt.sign(data, JWT_SECRET, {});
 }

@@ -10,6 +10,7 @@ exports.up = function(knex) {
     table.string('phone').notNullable();
     table.string('email').notNullable();
     table.string('contact_person').notNullable();
+    table.string('images').defaultTo('/supplier/default_supplier.jpg');
     table.uuid('created_by')
          .references('users.id')
          .onUpdate('CASCADE')

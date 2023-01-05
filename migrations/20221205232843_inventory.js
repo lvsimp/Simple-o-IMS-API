@@ -9,6 +9,7 @@ exports.up = function(knex) {
     table.string('description').notNullable();
     table.decimal('price', 8, 2).notNullable();
     table.integer('quantity').notNullable();
+    table.string('images').defaultTo('/inventories/default_inventory.jpg');
     table.uuid('category_id')
          .references('categories.id')
          .onUpdate('CASCADE')

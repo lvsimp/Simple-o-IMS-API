@@ -11,6 +11,7 @@ exports.up = function(knex) {
         table.string('username').notNullable();
         table.string('password').notNullable();
         table.string('role').notNullable();
+        table.string('image').defaultTo('/user/default_user.svg');
         table.uuid('created_by')
              .references('users.id')
              .onUpdate('CASCADE')
