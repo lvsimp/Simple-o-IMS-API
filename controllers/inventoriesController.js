@@ -102,14 +102,14 @@ module.exports.getDeliveries = (req, res) =>{
 
 module.exports.getTotalQty = (req, res) => {
     knex('inventories')
-    .sum('quantity')
+    .sum('quantity as qty')
     .then(data => res.status(200).send(data))
     .catch(err => res.status(400).send(err));
 }
 
 module.exports.getLowestQty = (req, res) =>{
     knex('inventories')
-    .min('quantity')
+    .min('quantity as qty')
     .then(data => res.status(200).send(data))
     .catch(err => res.status(400).send(err));
 
@@ -119,7 +119,7 @@ module.exports.getLowestQty = (req, res) =>{
 module.exports.getOutOfStock = (req, res) => {
     knex('inventories')
     .where('quantity', '=', 0)
-    .count('quantity')
+    .count('quantity as qty')
     .then(data => res.status(200).send(data))
     .catch(err => res.status(400).send(err));
 }

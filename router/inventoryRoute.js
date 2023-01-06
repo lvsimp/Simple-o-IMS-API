@@ -1,6 +1,17 @@
 const router = require('express').Router();
 const multer = require('multer');
-const upload = multer({dest:`public/inventories`});
+
+const storage = multer.diskStorage({
+      destination: function (req, file, callback) {
+        callback(null, "public/inventories");
+      },
+      filename: function (req, file, callback) {
+        callback(null, Date.now() + "_" + file.originalname);
+      },
+    });
+
+
+const upload = multer({storage: storage});
 const type = upload.single('images');
 
 const {
