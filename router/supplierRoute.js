@@ -1,4 +1,19 @@
 const router = require('express').Router();
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+      destination: function (req, file, callback) {
+        callback(null, "public/warehouse");
+      },
+      filename: function (req, file, callback) {
+        callback(null, Date.now() + "_" + file.originalname);
+      },
+    });
+
+
+const upload = multer({storage: storage});
+const type = upload.single('images');
+
 const {
         getAllSupplier,
         getSingleSupplier,
@@ -9,11 +24,11 @@ const {
 
 router.route('/')
       .get(getAllSupplier)
-      .post(addSupplier)
+      .post(type, addSupplier)
 
 router.route('/:supplier_id')
       .get(getSingleSupplier)
-      .put(updateSupplier)
+      .put( type, updateSupplier)
       .delete(deleteSupplier);
 
 module.exports = router;

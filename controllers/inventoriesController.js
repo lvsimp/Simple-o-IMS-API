@@ -1,17 +1,6 @@
 //imports 
 const knex = require('knex')(require('../knexfile'));
 const {v4 : uuid} = require('uuid');
-// const multer = require('multer');
-
-// const storage = multer.diskStorage({
-//         destination: function (req, file, cb){
-//             cb(null, 'public/inventories');
-//         }, 
-//         filename: function (req, file, cb){
-//             cb(null, file.originalname);
-//         }
-// });
-// const upload = multer({storage: storage});
 
 
 //get all inventory
@@ -55,7 +44,11 @@ module.exports.addInventory = (req, res) => {
 
 
     knex('inventories')
-        .insert({id: uuid(), ...req.body, images:imagePath.replace('public', '')})
+        .insert({
+            id: uuid(),
+            ...req.body,
+            images:imagePath.replace('public', '')
+        })
         .then(data => res.status(200).send(`Inventory has been added.`))
         .catch(err => res.status(400).send(`Can't create inventory.`));
 

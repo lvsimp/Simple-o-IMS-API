@@ -4,6 +4,12 @@ const {v4 : uuid} = require('uuid');
 
 //get all warehouse
 module.exports.getAllWarehouse = (_req, res) =>{
+    // res.setHeader("Access-Control-Allow-Origin", "*")
+    // res.setHeader("Access-Control-Allow-Credentials", "true");
+    // res.setHeader("Access-Control-Max-Age", "1800");
+    // res.setHeader("Access-Control-Allow-Headers", "content-type");
+    // res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
+ 
     knex('warehouses')
         .then( data =>{
             res.status(200).send(data);
@@ -23,6 +29,8 @@ module.exports.getSingleWarehouse = (req, res) => {
 
 // add warehouse 
 module.exports.addWarehouse = (req, res) =>{
+    const imagePath = req.file.path;
+
     if( 
         !req.body.name ||
         !req.body.address
@@ -32,7 +40,8 @@ module.exports.addWarehouse = (req, res) =>{
     knex('warehouses')
     .insert({
         id: uuid(),
-        ...req.body
+        ...req.body,
+        images: imagePath.replace('public', '')
     })
     .then(data => {
         res.status(200).send(data);
@@ -42,9 +51,11 @@ module.exports.addWarehouse = (req, res) =>{
 
 // update warehouse
 module.exports.updateWarehouse = (req, res) => {
+    const imagePath = req.file.path;
+
     knex('warehouses')
         .where({id : req.params.warehouse_id})
-        .update({...req.body})
+        .update({...req.body, images: imagePath.replace('public', '')})
         .then(() => {
             res.status(200).send(`Warehouse with id ${req.params.warehouse_id} Updated`);
         })

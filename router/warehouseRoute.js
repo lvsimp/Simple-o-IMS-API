@@ -24,7 +24,7 @@ const {
 
 router.route('/')
       .get(getAllWarehouse)
-      .post(addWarehouse)
+      .post(type, addWarehouse)
 
 router.route('/:warehouse_id')
       .get(getSingleWarehouse)

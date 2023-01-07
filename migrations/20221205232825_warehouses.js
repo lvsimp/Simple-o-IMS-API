@@ -7,6 +7,8 @@ exports.up = function(knex) {
         table.uuid('id').primary();
         table.string('name').notNullable();
         table.string('address').notNullable();
+        table.string('contact_person').notNullable();
+        table.string('phone').notNullable();
         table.string('images').defaultTo('/warehouse/default_warehouse.jpg');
         table.uuid('created_by')
              .references('users.id')

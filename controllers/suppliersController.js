@@ -23,6 +23,7 @@ module.exports.getSingleSupplier = (req, res) => {
 
 // add supplier 
 module.exports.addSupplier = (req, res) =>{
+    const imagePath = req.file.path;
     if( 
         !req.body.name ||
         !req.body.address ||
@@ -35,7 +36,8 @@ module.exports.addSupplier = (req, res) =>{
     knex('suppliers')
     .insert({
         id: uuid(),
-        ...req.body
+        ...req.body,
+        images: imagePath.replace('public', '')
     })
     .then(data => {
         res.status(200).send(data);
@@ -45,6 +47,9 @@ module.exports.addSupplier = (req, res) =>{
 
 // update supplier
 module.exports.updateSupplier = (req, res) => {
+
+    const imagePath = req.file.path
+
     knex('suppliers')
         .where({id : req.params.supplier_id})
         .update({...req.body})
