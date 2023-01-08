@@ -23,7 +23,17 @@ module.exports.getSingleSupplier = (req, res) => {
 
 // add supplier 
 module.exports.addSupplier = (req, res) =>{
-    const imagePath = req.file.path;
+
+    const data = {
+        id: uuid(),
+        ...req.body
+    }
+
+    if(typeof req.file === 'object'){
+        const imagePath = req.file.path;
+        data.images = imagePath.replace('public', '')
+    }
+
     if( 
         !req.body.name ||
         !req.body.address ||
@@ -34,11 +44,7 @@ module.exports.addSupplier = (req, res) =>{
         res.status(400).send(`Fields are not correctly filled.`)
     }
     knex('suppliers')
-    .insert({
-        id: uuid(),
-        ...req.body,
-        images: imagePath.replace('public', '')
-    })
+    .insert(data)
     .then(data => {
         res.status(200).send(data);
     })
@@ -47,12 +53,19 @@ module.exports.addSupplier = (req, res) =>{
 
 // update supplier
 module.exports.updateSupplier = (req, res) => {
+    
+    const data = {
+        ...req.body
+    }
 
-    const imagePath = req.file.path
+    if(typeof req.file === 'object'){
+        const imagePath = req.file.path;
+        data.images = imagePath.replace('public', '')
+    }
 
     knex('suppliers')
         .where({id : req.params.supplier_id})
-        .update({...req.body})
+        .update(data)
         .then(() => {
             res.status(200).send(`Supplier with id ${req.params.supplier_id} Updated`);
         })

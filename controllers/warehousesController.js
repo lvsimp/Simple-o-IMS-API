@@ -4,13 +4,13 @@ const {v4 : uuid} = require('uuid');
 
 //get all warehouse
 module.exports.getAllWarehouse = (_req, res) =>{
-    // res.setHeader("Access-Control-Allow-Origin", "*")
-    // res.setHeader("Access-Control-Allow-Credentials", "true");
-    // res.setHeader("Access-Control-Max-Age", "1800");
-    // res.setHeader("Access-Control-Allow-Headers", "content-type");
-    // res.setHeader( "Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, PATCH, OPTIONS" ); 
- 
     knex('warehouses')
+        .select('warehouses.id as id',
+                'warehouses.name as name',
+                'warehouses.address as address',
+                'warehouses.images as images',
+                'inventories.quantity as item_count')
+        .join('inventories', {'warehouses.id' : 'inventories.warehouse_id'})
         .then( data =>{
             res.status(200).send(data);
         })
@@ -30,6 +30,16 @@ module.exports.getSingleWarehouse = (req, res) => {
 // add warehouse 
 module.exports.addWarehouse = (req, res) =>{
     const imagePath = req.file.path;
+    
+    const data = {
+        id: uuid(),
+        ...req.body
+    }
+
+    if(req.file && req.file.path){
+        data.images = imagePath.replace('public', '')
+    }
+
 
     if( 
         !req.body.name ||
@@ -38,11 +48,7 @@ module.exports.addWarehouse = (req, res) =>{
         res.status(400).send(`Fields are not correctly filled.`)
     }
     knex('warehouses')
-    .insert({
-        id: uuid(),
-        ...req.body,
-        images: imagePath.replace('public', '')
-    })
+    .insert()
     .then(data => {
         res.status(200).send(data);
     })
@@ -51,11 +57,18 @@ module.exports.addWarehouse = (req, res) =>{
 
 // update warehouse
 module.exports.updateWarehouse = (req, res) => {
-    const imagePath = req.file.path;
+    const data = {
+        ...req.body
+    }
+    
+    if(typeof req.file === 'object'){
+        const imagePath = req.file.path;
+        data.images = imagePath.replace('public', '');
+    }
 
     knex('warehouses')
         .where({id : req.params.warehouse_id})
-        .update({...req.body, images: imagePath.replace('public', '')})
+        .update(data)
         .then(() => {
             res.status(200).send(`Warehouse with id ${req.params.warehouse_id} Updated`);
         })
@@ -70,4 +83,16 @@ module.exports.deleteWarehouse =(req, res) =>{
             res.status(200).send(data,{message: 'Warehouse Deleted from the database.'} );
         })
         .catch( err => res.status(400).send(`Can't delete warehouse.`));
+}
+
+//item count 
+module.exports.getItemCount =(req, res)=>{
+
+    knex('inventories')
+    .select('warehouse_id')
+    .sum('quantity')
+    .groupBy('warehouse_id')
+    .then(data => res.status(200).send(data))
+    .catch(err => res.status(400).send(err))
+
 }

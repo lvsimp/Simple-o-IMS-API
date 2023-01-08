@@ -6,6 +6,18 @@ const {v4 : uuid} = require('uuid');
 //get all inventory
 module.exports.getAllInventory = (req, res) =>{
     knex('inventories')
+    .select('inventories.id as id',
+        'inventories.name as name' ,
+        'inventories.description as description',
+        'inventories.price as price', 
+        'inventories.quantity as quantity', 
+        'inventories.images as images',
+        'warehouses.name as warehouse' , 
+        'suppliers.name as supplier', 
+        'categories.type as category')
+    .join('suppliers', {'inventories.supplier_id' : 'suppliers.id'})
+    .join('warehouses', {'inventories.warehouse_id' : 'warehouses.id'})
+    .join('categories', {'inventories.category_id' : 'categories.id'})
     .then(data => {
         res.status(200).send(data);
     })
@@ -28,7 +40,16 @@ module.exports.getSingleInventory = (req, res) => {
 //add inventory
 module.exports.addInventory = (req, res) => {
 
-    const imagePath = req.file.path;
+    const data = {
+        id: uuid(),
+        ...req.body
+    }
+
+    if(typeof req.file === 'object'){
+        const imagePath = req.file.path;
+        data.images = imagePath.replace('public', '')
+    }
+
 
     if(
         !req.body.name ||
@@ -44,11 +65,7 @@ module.exports.addInventory = (req, res) => {
 
 
     knex('inventories')
-        .insert({
-            id: uuid(),
-            ...req.body,
-            images:imagePath.replace('public', '')
-        })
+        .insert(data)
         .then(data => res.status(200).send(`Inventory has been added.`))
         .catch(err => res.status(400).send(`Can't create inventory.`));
 
@@ -57,12 +74,18 @@ module.exports.addInventory = (req, res) => {
 //update inventory
 module.exports.updateInventory = (req, res) => {
 
-    const imagePath = req.file.path;
-    console.log(imagePath)
+    const data = {
+        ...req.body
+    }
+
+    if(typeof req.file === 'object'){
+        const imagePath = req.file.path;
+        data.images = imagePath.replace('public', '')
+    }
 
     knex('inventories')
         .where({id : req.params.inventory_id})
-        .update({...req.body, images:imagePath.replace('public', '')})
+        .update(data)
         .then(data => {
             res.status(200).send(`Inventory with id ${data.id} has been updated.`);
         })
