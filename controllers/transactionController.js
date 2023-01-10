@@ -64,3 +64,13 @@ module.exports.cancelTransaction = (req, res) =>{
         res.status(400).send(`Can't cancel transaction`);
     })
 }
+
+module.exports.getAllOrdersPerTransaction = (req, res) => {
+    knex('orders')
+    .where({transaction_id : req.params.transaction_id})
+    .then(data =>{
+        res.status(200).send(data);
+    })
+    .catch(err => res.status(200).send(`Can't find orders for transaction ${err}`))
+
+}

@@ -17,4 +17,6 @@ router.route('/:transaction_id')
         .put(updateTransaction)
         .delete(cancelTransaction)
 
+router.get('/:transaction_id/orders', getAllOrdersPerTransaction)
+
 module.exports = router;
