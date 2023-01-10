@@ -8,7 +8,6 @@ exports.up = function(knex) {
         table.string('first_name').notNullable();
         table.string('last_name').notNullable();
         table.string('email').notNullable();
-        table.string('username').notNullable();
         table.string('password').notNullable();
         table.string('role').notNullable();
         table.string('image').defaultTo('/user/default_user.svg');
