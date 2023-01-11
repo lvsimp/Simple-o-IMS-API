@@ -10,7 +10,7 @@ module.exports.getAllTransaction = (req, res) => {
     .catch(err => res.status(400).send('Something is wrong please try again later.'))
 }
 
-module.exports.getSingleTransactio = (req, res) => {
+module.exports.getSingleTransaction = (req, res) => {
     knex('transaction')
     .where({id: req.params.transaction_id})
     .then(data => {
@@ -27,16 +27,16 @@ module.exports.addTransaction = (req, res) => {
     }
 
 
-    if(!req.body.customer_name || !req.body.customer_address || !req.body.total_cost ){
+    if(!req.body.customer_name || !req.body.customer_address ){
         return res.status(400).send('Please provide all required fields');
     }
 
     knex('transaction')
     .insert(data)
     .then(data => {
-        res.status(200).send('New Transaction created', data)
+        res.status(200).send(data);
     })
-    .catch(err => res.status(400).send(`Could not created transaction`, err))
+    .catch(err => res.status(400).send(err))
 }
 
 module.exports.updateTransaction = (req, res) => {

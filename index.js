@@ -12,6 +12,8 @@ const categoryRoutes = require('./router/categoryRoute');
 const supplierRoutes = require('./router/supplierRoute');
 const warehouseRoutes = require('./router/warehouseRoute');
 const inventoryRoutes = require('./router/inventoryRoute');
+const transactionRoutes = require('./router/transactionRoute');
+const orderRoutes = require('./router/orderRoute');
 
 const {loginUser, registerUser, getUserProfile} = require('./controllers/usersController')
 
@@ -27,6 +29,10 @@ app.use('/category' , categoryRoutes );
 app.use('/supplier', supplierRoutes);
 app.use('/warehouse', warehouseRoutes);
 app.use('/items' ,inventoryRoutes);
+app.use('/transaction', transactionRoutes);
+app.use('/orders', orderRoutes);
+
+
 
 app.post('/login' , loginUser);
 app.post('/register', registerUser);

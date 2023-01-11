@@ -29,7 +29,7 @@ module.exports.addCategory = (req, res) => {
     knex('categories')
     .insert({id: uuid(), ...req.body})
     .then((data) => {
-        res.status(200).send(`New Category created`);
+        res.status(200).json(data);
       })
       .catch((err) => {
         res

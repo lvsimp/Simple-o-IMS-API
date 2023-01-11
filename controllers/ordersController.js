@@ -21,16 +21,12 @@ module.exports.getSingleOrders = (req, res) => {
 }
 
 module.exports.addOrders = (req, res) => {
-    if(!req.body.transaction_id ||
-        !req.body.item_id ||
-        !req.body.quantity ||
-        !req.body.subtotal)
     knex('orders')
     .insert({id: uuid(), ...req.body})
     .then(data => {
-        res.status(200).send('Created Order Successfully', data)
+        res.status(200).send('Created Order Successfully')
     })
-    .catch(err => res.status(400).send("Can't add order",err))
+    .catch(err => res.status(400).send("Can't add order"))
 }
 module.exports.updateOrders = (req, res) => {
     knex('orders')

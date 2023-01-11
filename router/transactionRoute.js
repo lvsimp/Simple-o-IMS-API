@@ -3,10 +3,13 @@ const router = require('express').Router();
 const {
     getAllTransaction, 
     getSingleTransaction, 
+    getAllOrdersPerTransaction,
     addTransaction,
     updateTransaction,
     cancelTransaction
 } = require('../controllers/transactionController')
+
+router.get('/:transaction_id/orders', getAllOrdersPerTransaction)
 
 router.route('/')
         .get(getAllTransaction)
@@ -17,6 +20,5 @@ router.route('/:transaction_id')
         .put(updateTransaction)
         .delete(cancelTransaction)
 
-router.get('/:transaction_id/orders', getAllOrdersPerTransaction)
 
 module.exports = router;

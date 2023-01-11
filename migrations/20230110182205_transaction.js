@@ -8,7 +8,7 @@ exports.up = function(knex) {
         table.timestamp('trans_date').defaultTo(knex.fn.now());
         table.string('customer_name').notNullable();
         table.string('customer_address').notNullable()
-        table.decimal('total_cost', 8, 2).notNullable();
+        table.decimal('total_cost', 8, 2);
         table.uuid('created_by')
              .references('users.id')
              .onUpdate('CASCADE')
